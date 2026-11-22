@@ -1,0 +1,5 @@
+names:
+  0: stenosis
+path: D:\PhD Project\ClaudProject\cad_plaque_ai\dataset
+train: D:\PhD Project\ClaudProject\cad_plaque_ai\results\stenohybrid-s-noaifi\source_lists\arcade.txt
+val: D:\PhD Project\ClaudProject\cad_plaque_ai\results\stenohybrid-s-noaifi\source_lists\arcade.txt

@@ -1,0 +1,13 @@
+source,split,images,patients,videos,positive_frames,negative_frames,boxes
+ALL,train,9675,75 (+ARCADE),1343,7601,2074,8297
+ALL,val,2285,15 (+ARCADE),283,1632,653,1895
+ALL,test,2450,15 (+ARCADE),378,1772,678,1949
+arcade,train,1000,n/a,1000,1000,0,1625
+arcade,val,200,n/a,200,200,0,406
+arcade,test,300,n/a,300,300,0,386
+cadica,train,2862,29,185,788,2074,858
+cadica,val,831,6,58,178,653,235
+cadica,test,892,6,47,214,678,305
+danilov,train,5813,46,158,5813,0,5814
+danilov,val,1254,9,25,1254,0,1254
+danilov,test,1258,9,31,1258,0,1258

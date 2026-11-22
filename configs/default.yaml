@@ -1,0 +1,56 @@
+# CAD Plaque AI - configuration (RTX 4050 6GB)
+# Paths: use forward slashes / and keep the quotes.
+
+data:
+  raw_dir: "data"                                    # Danilov (Roboflow export: train/ valid/ test/)
+  arcade_dir: "D:/PhD Project/Dataset/arcade"        # ARCADE original (Zenodo); null = do not use
+  cadica_dir: "D:/PhD Project/Dataset/CADICA"        # CADICA (Mendeley);      null = do not use
+  cadica_min_grade: 70          # CADICA box counts as stenosis when grade >= 70 %
+  cadica_ambiguous: drop        # frames with 20-69 % lesions: drop | negative
+  cadica_use_negatives: true    # use lesion-free videos as NORMAL frames
+  out_dir: dataset
+  split: [0.70, 0.15, 0.15]
+  kfolds: 5
+  seed: 42
+
+preprocess:
+  clahe: true
+  clahe_clip: 2.0
+  clahe_tile: 8
+  denoise: false
+
+train:
+  model: rtdetr-l.pt
+  baseline: yolo11s.pt
+  imgsz: 640
+  epochs: 100
+  batch: 4
+  optimizer: AdamW
+  lr0: 0.0001
+  patience: 30
+  device: 0
+
+measure:
+  mm_per_pixel: null
+  box_margin: 1.0
+  min_crop: 96
+  lesion_threshold: 0.80
+
+infer:
+  conf: 0.25
+  iou: 0.5
+
+# ---- fast fine-tuning (python src/train.py --fast) ----
+fast:
+  imgsz: 512            # ARCADE/CADICA are 512 px natively; ~35% less compute than 640
+  epochs: 40
+  patience: 10          # stop when val mAP has not improved for 10 epochs
+  batch: 6
+  freeze: 10            # freeze the first 10 (backbone) layers: faster, less overfitting
+  workers: 4
+  val_stride: 2         # validate on every 2nd frame during training (test set is untouched)
+  frame_stride:         # keep every k-th frame of each cine run (neighbouring frames are near-duplicates)
+    danilov: 3
+    arcade: 1
+    cadica: 1           # CADICA positive key frames (few, keep all)
+    cadica_neg: 2       # CADICA normal frames

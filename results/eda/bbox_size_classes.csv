@@ -1,0 +1,4 @@
+split,small,medium,large
+test,1005,253,0
+train,3028,2783,3
+val,647,607,0

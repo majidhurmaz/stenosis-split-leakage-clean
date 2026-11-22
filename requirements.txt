@@ -1,0 +1,14 @@
+ultralytics>=8.3.0        # RT-DETR (proposed) + YOLO11 (baseline)
+torch>=2.2                 # install the CUDA build matching your GPU: https://pytorch.org
+torchvision
+opencv-python
+numpy
+scipy
+scikit-image
+scikit-learn
+pandas
+matplotlib
+pyyaml
+openpyxl                   # expert review Excel sheet
+tabulate                   # markdown tables in the expert report
+pydicom                    # MTI HMC DICOM cine input (optional)

@@ -1,0 +1,5 @@
+names:
+  0: stenosis
+path: D:\PhD Project\ClaudProject\cad_plaque_ai\dataset_frame
+train: D:\PhD Project\ClaudProject\cad_plaque_ai\results\yolo11s-fast-frame\source_lists\cadica.txt
+val: D:\PhD Project\ClaudProject\cad_plaque_ai\results\yolo11s-fast-frame\source_lists\cadica.txt

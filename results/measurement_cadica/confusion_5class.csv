@@ -1,0 +1,6 @@
+,AI <20%,AI 20-49%,AI 50-69%,AI 70-89%,AI >=90%
+cardiologist <20%,30,102,6,2,0
+cardiologist 20-49%,2,84,15,0,0
+cardiologist 50-69%,3,43,28,5,0
+cardiologist 70-89%,2,49,29,6,0
+cardiologist >=90%,4,40,43,20,1

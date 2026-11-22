@@ -1,0 +1,49 @@
+# StenoHybrid-S: lightweight hybrid CNN-transformer detector for coronary stenosis on ICA
+#   CNN backbone      : YOLO11s backbone (C3k2 blocks, SPPF, C2PSA)        -> local texture of narrowed lumen
+#   Transformer encoder: AIFI intra-scale self-attention on the P5 map      -> global vessel context
+#   CNN neck          : cross-scale fusion with RepC3 blocks (top-down + bottom-up)
+#   Transformer decoder: RT-DETR set-prediction decoder (300 queries, NMS-free)
+# Channels are written out explicitly (no 'scales'), so layers 0-10 match yolo11s.pt and
+# the encoder/neck/decoder match rtdetr-l.pt for weight transfer (see init_weights.py).
+
+nc: 1
+
+backbone:
+  # [from, repeats, module, args]          YOLO11s backbone
+  - [-1, 1, Conv, [32, 3, 2]]              # 0-P1/2
+  - [-1, 1, Conv, [64, 3, 2]]              # 1-P2/4
+  - [-1, 1, C3k2, [128, False, 0.25]]      # 2
+  - [-1, 1, Conv, [128, 3, 2]]             # 3-P3/8
+  - [-1, 1, C3k2, [256, False, 0.25]]      # 4  -> P3 (256 ch)
+  - [-1, 1, Conv, [256, 3, 2]]             # 5-P4/16
+  - [-1, 1, C3k2, [256, True]]             # 6  -> P4 (256 ch)
+  - [-1, 1, Conv, [512, 3, 2]]             # 7-P5/32
+  - [-1, 1, C3k2, [512, True]]             # 8
+  - [-1, 1, SPPF, [512, 5]]                # 9
+  - [-1, 1, C2PSA, [512]]                  # 10 -> P5 (512 ch)
+
+head:
+  - [-1, 1, Conv, [256, 1, 1, None, 1, 1, False]]  # 11 input projection of P5
+  - [-1, 1, AIFI, [1024, 8]]                       # 12 transformer encoder (intra-scale attention)
+  - [-1, 1, Conv, [256, 1, 1]]                     # 13 Y5
+
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]     # 14
+  - [6, 1, Conv, [256, 1, 1, None, 1, 1, False]]   # 15 projection of P4
+  - [[-2, -1], 1, Concat, [1]]                     # 16
+  - [-1, 3, RepC3, [256]]                          # 17
+  - [-1, 1, Conv, [256, 1, 1]]                     # 18 Y4
+
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]     # 19
+  - [4, 1, Conv, [256, 1, 1, None, 1, 1, False]]   # 20 projection of P3
+  - [[-2, -1], 1, Concat, [1]]                     # 21
+  - [-1, 3, RepC3, [256]]                          # 22 X3 (P3 output)
+
+  - [-1, 1, Conv, [256, 3, 2]]                     # 23
+  - [[-1, 18], 1, Concat, [1]]                     # 24
+  - [-1, 3, RepC3, [256]]                          # 25 F4 (P4 output)
+
+  - [-1, 1, Conv, [256, 3, 2]]                     # 26
+  - [[-1, 13], 1, Concat, [1]]                     # 27
+  - [-1, 3, RepC3, [256]]                          # 28 F5 (P5 output)
+
+  - [[22, 25, 28], 1, RTDETRDecoder, [nc]]         # 29 transformer decoder

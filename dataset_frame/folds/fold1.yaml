@@ -1,0 +1,6 @@
+path: D:\PhD Project\ClaudProject\cad_plaque_ai\dataset_frame
+train: D:\PhD Project\ClaudProject\cad_plaque_ai\dataset_frame\folds\fold1_train.txt
+val: D:\PhD Project\ClaudProject\cad_plaque_ai\dataset_frame\folds\fold1_val.txt
+test: images/test
+names:
+  0: stenosis

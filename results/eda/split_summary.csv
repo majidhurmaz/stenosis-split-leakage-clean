@@ -1,0 +1,4 @@
+split,images,patients,cine_sequences,boxes
+train,5813,46,158,5814
+val,1254,9,25,1254
+test,1258,9,31,1258

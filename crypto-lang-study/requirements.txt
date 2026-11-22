@@ -1,0 +1,10 @@
+requests>=2.31
+pyyaml>=6.0
+pandas>=2.0
+numpy>=1.26
+scipy>=1.11
+statsmodels>=0.14
+matplotlib>=3.8
+bandit>=1.7.9
+semgrep>=1.80   # optional on Windows; use --no-semgrep if it will not install
+pytest>=8

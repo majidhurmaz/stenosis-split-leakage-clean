@@ -1,0 +1,22 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261123001000
+Username: MajidHurmaz\Majid Hurmaz
+RunAs User: MajidHurmaz\Majid Hurmaz
+Configuration Name: 
+Machine: MAJIDHURMAZ (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -File .\partC.ps1 -Models llama3.1:8b-instruct-q4_K_M
+Process ID: 31412
+PSVersion: 5.1.26100.9818
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9818
+BuildVersion: 10.0.26100.9818
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+=== Python: D:\Claud-LLM-Research\crypto-lang-study\.venv\Scripts\python.exe
+
+=== Step 1/5: installing Ollama
